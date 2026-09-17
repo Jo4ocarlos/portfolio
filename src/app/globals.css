@@ -1,0 +1,40 @@
+:root {
+  /* Paleta Base: Azul Petróleo Profundo (MANTIDA) */
+  --bg-primary: #050E14; 
+  --bg-secondary: #0A1929; 
+  --bg-tertiary: #112840; 
+
+  /* Cores de Ação: Laranja Suave (Excelente Legibilidade) */
+  --accent-primary: #FF9F43; /* Laranja clareado, tom de pêssego/papaya */
+  --accent-secundary: #E87A1E; /* O laranja forte fica só para fundos/bordas */
+  --accent-hover: #c97c33; /* Mais claro ainda no hover */
+  --accent-glow: rgba(255, 159, 67, 0.4);
+
+  /* Tipografia (MANTIDA) */
+  --text-primary: #FFF; 
+  --text-secondary: #e8f2fa; 
+
+  /* Espaçamentos e Grid (MANTIDO) */
+  --bento-gap: 1rem;
+  --radius-md: 12px;
+  --radius-lg: 24px;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

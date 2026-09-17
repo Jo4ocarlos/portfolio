@@ -1,0 +1,119 @@
+/* src/components/bento/profile.module.css */
+.bentoCard {
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.2s ease;
+}
+
+.bentoCard:hover {
+  background-color: var(--bg-tertiary);
+}
+
+.bioCard {
+  
+  display: flex;
+  flex-direction: column;
+  /* Mudamos de space-between para flex-start */
+
+  /* Adiciona um respiro natural entre o título e o texto */
+  gap: 0.75rem; 
+}
+
+.imageWrapper {
+  width: 100%;
+  aspect-ratio: 4 / 3; /* Quadrado perfeito que acertamos antes */
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+  background-color: var(--bg-primary);
+}
+
+.profileImage {
+  object-fit: cover;
+  object-position: center 35%;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+.bentoCard:hover .profileImage {
+  filter: grayscale(0%);
+}
+
+.greeting {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.role {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.locationBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--bg-primary);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  margin-bottom: 1.25rem;
+}
+
+.socialGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.socialBtn {
+  background-color: var(--bg-primary);
+  color: var(--text-secondary);
+  padding: 0.6rem;
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.socialBtn:hover {
+  color: var(--text-primary);
+  background-color: var(--accent-secundary);
+  box-shadow: 0 0 15px var(--accent-glow);
+}
+
+.socialBtnSpan2 {
+  grid-column: span 2;
+}
+
+.bioTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.bioText {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+@media (min-width: 1024px) {
+  .imageWrapper {
+    /* FIX DESKTOP: Volta a ser um quadrado perfeito proporcional à coluna esquerda */
+    height: auto;
+    aspect-ratio: 4 / 3; 
+  }
+}

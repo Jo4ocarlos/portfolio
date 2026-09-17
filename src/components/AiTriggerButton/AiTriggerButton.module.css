@@ -1,0 +1,35 @@
+/* src/components/AiTriggerButton/AiTriggerButton.module.css */
+.aiTriggerBtn {
+  background-color: rgba(255, 255, 255, 0.03);
+  color: var(--text-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.25rem 0.55rem;
+  border-radius: 2rem;
+  font-size: 0.68rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  text-decoration: none;
+  opacity: 0.4; /* Quase invisível em repouso */
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sparkleIcon {
+  color: inherit;
+  transition: transform 0.2s ease;
+}
+
+/* Hover direto no botão */
+.aiTriggerBtn:hover {
+  background-color: var(--accent-secundary) !important;
+  border-color: var(--accent-primary) !important;
+  color: #ffffff !important;
+  opacity: 1 !important;
+  box-shadow: 0 0 12px var(--accent-glow);
+  transform: translateY(-1px);
+}
+
+.aiTriggerBtn:hover .sparkleIcon {
+  transform: rotate(15deg) scale(1.1);
+}

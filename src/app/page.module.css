@@ -1,0 +1,118 @@
+/* src/app/page.module.css */
+
+/* =========================================
+   1. MOBILE FIRST (Até 767px - Celulares)
+   ========================================= */
+.mainContainer {
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+  min-height: 90vh;
+  display: grid;
+  gap: var(--bento-gap);
+  grid-template-columns: 1fr;
+}
+
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: 100%;
+}
+
+.rightGrid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr; /* Empilhado no celular */
+  width: 100%;
+}
+
+.fullWidthBanner {
+  width: 100%;
+}
+
+/* =========================================
+   2. TABLET (768px até 1023px)
+   ========================================= */
+@media (min-width: 768px) {
+  .mainContainer {
+    padding: 1rem;
+  }
+
+  .rightGrid {
+    /* 2 Colunas para não espremer muito os cards horizontais */
+    grid-template-columns: repeat(2, 1fr); 
+  }
+
+  /* Blocos maiores pegam a tela toda, menores dividem em 2 */
+  .colSpan12 { grid-column: span 2; }
+  .colSpan6  { grid-column: span 2; }
+  .colSpan4  { grid-column: span 1; }
+  .colSpan3  { grid-column: span 1; }
+  .rowSpan2  { grid-row: auto; } /* Desliga a altura esticada no tablet */
+  
+  .fullWidthBanner {
+    grid-column: 1 / -1; /* Ocupa a linha inteira */
+  }
+}
+
+/* =========================================
+   3. NOTEBOOK (1024px até 1499px)
+   ========================================= */
+@media (min-width: 1024px) {
+  .mainContainer {
+    grid-template-columns: 300px 1fr;
+    align-items: start;
+  }
+  
+  /* 1. Trava a coluna do perfil na esquerda ocupando a altura toda */
+  .leftColumn {
+    grid-column: 1;
+    grid-row: 1 / span 2; 
+  }
+  
+  /* 2. Joga os projetos/experiências para o topo da direita */
+  .rightGrid {
+    grid-column: 2;
+    grid-row: 1;  
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: minmax(min-content, max-content);
+    gap: var(--bento-gap);
+  }
+
+  /* 3. Encaixa o banner no final da direita */
+  .fullWidthBanner {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  /* Conversão matemática para encaixe perfeito em 6 colunas: */
+  .colSpan12 { grid-column: span 6; } /* 100% da direita */
+  .colSpan6  { grid-column: span 3; } /* 50% da direita (Checkout e Nesting) */
+  .colSpan4  { grid-column: span 2; } /* 33% da direita (Experiências: cabem 3 cravadas lado a lado!) */
+  .colSpan3  { grid-column: span 3; } /* Adaptado para 50% para formar duplas perfeitas (Plugins/Tech) */
+  .rowSpan2  { grid-row: span 2; }    /* Religa o esticamento vertical */
+}
+
+/* =========================================
+   4. DESKTOP ULTRAWIDE (Acima de 1500px)
+   O Bento Grid Original Intocável
+   ========================================= */
+@media (min-width: 1500px) {
+  .mainContainer {
+    max-width: 1700px; /* Trava o crescimento para não virar um site infinito */
+    margin: 0 auto;    /* Centraliza o site suavemente */
+    grid-template-columns: 380px 1fr; /* Foto volta ao tamanho majestoso */
+  }
+
+  .rightGrid {
+    /* As famosas 12 colunas */
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  /* Spans originais restaurados */
+  .colSpan12 { grid-column: span 12; } 
+  .colSpan6  { grid-column: span 6; }  
+  .colSpan4  { grid-column: span 4; }  
+  .colSpan3  { grid-column: span 3; }  
+  .rowSpan2  { grid-row: span 2; }     
+}

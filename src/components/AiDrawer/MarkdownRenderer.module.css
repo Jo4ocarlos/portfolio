@@ -1,0 +1,112 @@
+/* src/components/AiDrawer/MarkdownRenderer.module.css */
+.markdownBody {
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  word-break: break-word;
+}
+
+.markdownBody p {
+  margin: 0 0 1rem 0;
+}
+
+.markdownBody p:last-child {
+  margin-bottom: 0;
+}
+
+.markdownBody h1,
+.markdownBody h2,
+.markdownBody h3,
+.markdownBody h4 {
+  color: #ffffff;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 1.5rem 0 0.75rem 0;
+}
+
+.markdownBody h1 { font-size: 1.35rem; }
+.markdownBody h2 { font-size: 1.2rem; }
+.markdownBody h3 { font-size: 1.05rem; }
+
+.markdownBody ul,
+.markdownBody ol {
+  margin: 0 0 1rem 0;
+  padding-left: 1.25rem;
+}
+
+.markdownBody li {
+  margin-bottom: 0.35rem;
+}
+
+.markdownBody blockquote {
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+ border-left: 3px solid var(--accent-primary);
+  background-color: var(--accent-glow);
+  border-radius: 0 4px 4px 0;
+  color: var(--text-secondary);
+}
+
+.link {
+  color: var(--accent-primary);
+  background-color: var(--bg-secundary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+
+.link:hover {
+  color: var(--accent-hover);
+}
+
+.inlineCode {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.85em;
+  background-color: var(--bg-primary);
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  color: #f0883e;
+  font-weight:bolder;
+}
+
+/* Responsividade de Tabelas */
+.tableWrapper {
+  width: 100%;
+  margin: 1.25rem 0;
+  overflow-x: auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  text-align: left;
+}
+
+.table th {
+  background-color: #161b22;
+  color: #8b949e;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  padding: 0.6rem 0.875rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.table td {
+  padding: 0.6rem 0.875rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  color: #c9d1d9;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tr:nth-child(even) td {
+  background-color: rgba(255, 255, 255, 0.02);
+}
