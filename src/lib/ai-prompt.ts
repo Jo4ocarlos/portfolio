@@ -1,28 +1,27 @@
 // src/lib/ai-prompt.ts
-import { portfolioData } from '@/data/portfolio';
 
+import { portfolioData } from '@/data';
+import { Project } from '@/types/portfolio';
 export function generateSystemPrompt(projectId?: string): string {
-    // Injeção de RAG Estático / Contexto do Projeto
-    const contextProject = projectId
-      ? portfolioData.projects.find((p) => p.id === projectId)
-      : null;
+
+  const contextProject: Project | null = projectId
+    ? portfolioData.projects.find((p) => p.id === projectId) ?? null
+    : null;
 
   // 1. Mapeamento dos destaques técnicos
   const highlightsContext = contextProject?.technicalHighlights
-      ? contextProject.technicalHighlights
+    ? contextProject.technicalHighlights
         .map(
-                          (h) => `
+          (h) => `
                 --- DESTAQUE TÉCNICO: ${h.title} ---
                 DESCRIÇÃO ARQUITETURAL: ${h.description}
                 CÓDIGO (${h.language}):
-                \`\`\`${h.language}
-                ${h.codeSnippet}
+                \`\`\`${h.language}${h.codeSnippet}
                 \`\`\`
 `
         )
         .join('\n')
-      : 'Sem snippets de código isolados mapeados para este projeto no momento.';
-
+    : 'Sem snippets de código isolados mapeados para este projeto no momento.';
 
   // 2. Mapeamento dos Módulos
   const modulesContext = contextProject?.modules
@@ -31,8 +30,8 @@ export function generateSystemPrompt(projectId?: string): string {
         .join('\n')
     : 'Nenhum submódulo mapeado.';
 
-   const projectDetails = contextProject
-      ? `
+  const projectDetails = contextProject
+    ? `
         PROJETO EM ANÁLISE:
         - Título: ${contextProject.title}
         - Cliente: ${contextProject.client ?? 'N/A'}
