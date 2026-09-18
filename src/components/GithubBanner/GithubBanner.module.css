@@ -2,11 +2,12 @@
 
 .bannerContainer {
   display: flex;
-  flex-direction: row; /* Lado a lado para salvar altura! */
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column; /* MOBILE: Empilha o texto e o calendário */
+  align-items: flex-start; /* Alinha o texto à esquerda */
+  justify-content: center;
+  gap: 1.25rem; /* Respiro entre o texto e o gráfico no celular */
   width: 100%;
-  padding: 1rem; /* Menos altura no padding */
+  padding: 1.25rem; 
   background-color: var(--bg-secondary);
   border: 1px solid rgba(255, 255, 255, 0.05); 
   border-radius: var(--radius-lg);
@@ -15,9 +16,12 @@
   cursor: pointer;
 }
 
+/* DESKTOP: Volta a ficar lado a lado */
 @media (min-width: 1024px) {
   .bannerContainer {
-    flex-direction: row; /* Volta a ser lado a lado no desktop! */
+    flex-direction: row; 
+    align-items: center;
+    justify-content: space-between;
     gap: 0;
   }
 }
@@ -66,12 +70,14 @@
 
 /* ================== CALENDÁRIO ================== */
 .calendarWrapper {
+  width: 100%; /* Garante que o scroll aconteça dentro do banner */
   overflow-x: auto;
   overflow-y: hidden;
   opacity: 0.8;
   transition: opacity 0.3s ease;
   scrollbar-width: none; 
   -ms-overflow-style: none; 
+  -webkit-overflow-scrolling: touch; /* Deixa o deslizar de dedo macio no iPhone */
 }
 
 .calendarWrapper::-webkit-scrollbar {

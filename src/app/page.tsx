@@ -30,26 +30,27 @@ export default function Home() {
         <GithubBanner />
       </article>
 
-      {/* ================= COLUNA DIREITA ================= */}
+     {/* ================= COLUNA DIREITA ================= */}
       <section className={styles.rightGrid}>
         
         {projectCheckout && (
-          <BentoCard project={projectCheckout} className={styles.colSpan6} />
+          <BentoCard project={projectCheckout} className={`${styles.colSpan6} ${styles.orderCheckout}`} />
         )}
 
         {projectPlugins && (
-          <BentoCard project={projectPlugins} className={`${styles.colSpan3} ${styles.rowSpan2}`} />
+          <BentoCard project={projectPlugins} className={`${styles.colSpan3} ${styles.rowSpan2} ${styles.orderPlugins}`} />
         )}
 
-        <TechArsenal className={`${styles.colSpan3} ${styles.rowSpan2}`} />
+        {/* TechArsenal agora com a classe orderTech */}
+        <TechArsenal className={`${styles.colSpan3} ${styles.rowSpan2} ${styles.orderTech}`} />
 
+       {/* Nesting com a classe orderNesting para subir no mobile */}
         {projectNesting && (
-          <BentoCard project={projectNesting} className={styles.colSpan6} />
+          <BentoCard project={projectNesting} className={`${styles.colSpan6} ${styles.orderNesting}`} />
         )}
-
-        {/* Experiências */}
+        {/* Experiências com a classe orderExp para ficarem no final */}
         {experiences.slice(0, 3).map((exp) => (
-          <ExperienceCard key={exp.id} experience={exp} className={styles.colSpan4} />
+          <ExperienceCard key={exp.id} experience={exp} className={`${styles.colSpan4} ${styles.orderExp}`} />
         ))}
         
       </section>

@@ -29,7 +29,15 @@
 
 .fullWidthBanner {
   width: 100%;
+  max-width: 100%;
+  overflow-x: auto; /* Permite rolar o gráfico com o dedo no celular */
+  -webkit-overflow-scrolling: touch; /* Deixa o scroll suave no iOS */
 }
+.orderCheckout { order: 1; }
+.orderPlugins  { order: 2; }
+.orderNesting  { order: 3; } /* Puxa o Nesting para cima no celular */
+.orderTech     { order: 4; } /* Empurra as Tecnologias para baixo */
+.orderExp      { order: 5; } /* Mantém as experiências no final */
 
 /* =========================================
    2. TABLET (768px até 1023px)
@@ -53,6 +61,9 @@
   
   .fullWidthBanner {
     grid-column: 1 / -1; /* Ocupa a linha inteira */
+  }
+  .orderCheckout, .orderPlugins, .orderNesting, .orderTech, .orderExp {
+    order: 0; 
   }
 }
 
