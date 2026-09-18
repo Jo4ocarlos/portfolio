@@ -47,7 +47,7 @@ export interface Experience {
   role: string;
   period: string;
   description: string;
-  technologies: string[];
+  technologies: readonly string[];
 }
 export interface ProjectModule {
   name: string;
@@ -71,15 +71,15 @@ export interface Project {
   challenge: string;
   solution: string;
   impact: string;
-  techStack: TechStack[];
+  techStack: readonly TechStack[];
   featured: boolean;
   githubProfile?: string;
   repositoryUrl?: string;
   repositoryType: RepositoryType; // Agora só aceita as 4 strings exatas definidas la em cima
   liveUrl?: string;
-  modules?: ProjectModule[];
-  technicalHighlights?: TechnicalHighlight[];
-  aiSuggestions?: string[];
+  modules?: readonly ProjectModule[];
+  technicalHighlights?: readonly TechnicalHighlight[]; // <-- ADICIONADO READONLY
+  aiSuggestions?: readonly string[]; // <-- ADICIONADO READONLY
 }
 
 export interface PortfolioData {

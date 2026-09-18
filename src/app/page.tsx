@@ -1,7 +1,8 @@
 // src/app/page.tsx
 import { Suspense } from 'react';
 import styles from './page.module.css';
-import { portfolioData } from '@/data/portfolio';
+import { portfolioData } from '@/data'; // Puxa do index.ts automaticamente
+import { ProjectId } from '@/data/projects'; // Importa o tipo estrito
 import { AiDrawer } from '@/components/AiDrawer/AiDrawer';
 import GithubBanner from '@/components/GithubBanner/GithubBanner';
 import { ProfileCard } from '@/components/bento/ProfileCard';
@@ -9,12 +10,22 @@ import { BentoCard } from '@/components/bento/BentoCard';
 import { ExperienceCard } from '@/components/bento/ExperienceCard';
 import { TechArsenal } from '@/components/bento/TechArsenal';
 
-export default function Home() {
-  const { profile, projects, experiences } = portfolioData;
+// O Mapa de busca O(1)
+const projectMap = new Map(portfolioData.projects.map((p) => [p.id, p]));
 
-  const projectCheckout = projects.find((p) => p.id === 'wms-label-generator') ?? projects[0];
-  const projectPlugins = projects.find((p) => p.id === 'ecommerce-plugins');
-  const projectNesting = projects.find((p) => p.id === 'nesting-algorithm-core') ?? projects[1];
+function getProject(id: ProjectId) {
+  const project = projectMap.get(id);
+  if (!project) throw new Error(`Projeto "${id}" ausente na base.`);
+  return project;
+}
+
+export default function Home() {
+  const { profile, experiences } = portfolioData;
+
+  // Busca tipada. Se errar a string, o VSCode avisa antes de salvar.
+  const projectCheckout = getProject('wms-label-generator');
+  const projectPlugins  = getProject('ecommerce-plugins');
+  const projectNesting  = getProject('nesting-algorithm-core');
 
   return (
     <main className={styles.mainContainer}>
@@ -41,7 +52,7 @@ export default function Home() {
           <BentoCard project={projectPlugins} className={`${styles.colSpan3} ${styles.rowSpan2} ${styles.orderPlugins}`} />
         )}
 
-        {/* TechArsenal agora com a classe orderTech */}
+        {/* TechArsenal com a classe orderTech para reorganizar no mobile*/}
         <TechArsenal className={`${styles.colSpan3} ${styles.rowSpan2} ${styles.orderTech}`} />
 
        {/* Nesting com a classe orderNesting para subir no mobile */}
