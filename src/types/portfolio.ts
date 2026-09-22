@@ -8,7 +8,6 @@ export type TechStack =
   | 'Node.js'
   | 'n8n'
   | 'REST APIs'
-  | 'APIs REST'
   | 'PHP'
   | 'WordPress'
   | 'CSS3'
@@ -17,7 +16,9 @@ export type TechStack =
   | 'Google Sheets'
   | 'Git'
   | 'Google Sheets API'
-  |'Worker Threads';
+  |'Worker Threads'
+  |'Matrizes (Uint32Array)'
+  ;
 
 export type ProjectCategory =
   | 'E-commerce'
@@ -34,6 +35,8 @@ export interface Profile {
   location: string;
   bio: string;
   availability: boolean;
+  avatarUrl: string;
+  stack: string[];
   socials: {
     github: string;
     linkedin: string;

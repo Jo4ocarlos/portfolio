@@ -1,14 +1,14 @@
 // src/app/page.tsx
 import { Suspense } from 'react';
 import styles from './page.module.css';
-import { portfolioData } from '@/data'; // Puxa do index.ts automaticamente
-import { ProjectId } from '@/data/projects'; // Importa o tipo estrito
+import { portfolioData } from '@/data'; 
+import { ProjectId } from '@/data/projects';
 import { AiDrawer } from '@/components/AiDrawer/AiDrawer';
 import GithubBanner from '@/components/GithubBanner/GithubBanner';
-import { ProfileCard } from '@/components/bento/ProfileCard';
-import { BentoCard } from '@/components/bento/BentoCard';
-import { ExperienceCard } from '@/components/bento/ExperienceCard';
-import { TechArsenal } from '@/components/bento/TechArsenal';
+import { ProfileCard } from '@/components/Bento/ProfileCard';
+import { BentoCard } from '@/components/Bento/BentoCard';
+import { ExperienceCard } from '@/components/Bento/ExperienceCard';
+import { TechArsenal } from '@/components/Bento/TechArsenal';
 
 // O Mapa de busca O(1)
 const projectMap = new Map(portfolioData.projects.map((p) => [p.id, p]));
@@ -24,12 +24,12 @@ export default function Home() {
 
   // Busca tipada. Se errar a string, o VSCode avisa antes de salvar.
   const projectCheckout = getProject('wms-label-generator');
-  const projectPlugins  = getProject('ecommerce-plugins');
-  const projectNesting  = getProject('nesting-algorithm-core');
+  const projectPlugins = getProject('ecommerce-plugins');
+  const projectNesting = getProject('nesting-algorithm-core');
 
   return (
     <main className={styles.mainContainer}>
-      
+
       {/* ================= COLUNA ESQUERDA ================= */}
       <aside className={styles.leftColumn}>
         <ProfileCard profile={profile} />
@@ -41,9 +41,9 @@ export default function Home() {
         <GithubBanner />
       </article>
 
-     {/* ================= COLUNA DIREITA ================= */}
+      {/* ================= COLUNA DIREITA ================= */}
       <section className={styles.rightGrid}>
-        
+
         {projectCheckout && (
           <BentoCard project={projectCheckout} className={`${styles.colSpan6} ${styles.orderCheckout}`} />
         )}
@@ -53,9 +53,12 @@ export default function Home() {
         )}
 
         {/* TechArsenal com a classe orderTech para reorganizar no mobile*/}
-        <TechArsenal className={`${styles.colSpan3} ${styles.rowSpan2} ${styles.orderTech}`} />
+        <TechArsenal
+          stack={profile.stack}
+          className={`${styles.colSpan3} ${styles.rowSpan2} ${styles.orderTech}`}
+        />
 
-       {/* Nesting com a classe orderNesting para subir no mobile */}
+        {/* Nesting com a classe orderNesting para subir no mobile */}
         {projectNesting && (
           <BentoCard project={projectNesting} className={`${styles.colSpan6} ${styles.orderNesting}`} />
         )}
@@ -63,14 +66,14 @@ export default function Home() {
         {experiences.slice(0, 3).map((exp) => (
           <ExperienceCard key={exp.id} experience={exp} className={`${styles.colSpan4} ${styles.orderExp}`} />
         ))}
-        
+
       </section>
 
       {/* Isolamento com Suspense para Deep Linking da IA */}
       <Suspense fallback={null}>
         <AiDrawer />
       </Suspense>
-      
+
     </main>
   );
 }

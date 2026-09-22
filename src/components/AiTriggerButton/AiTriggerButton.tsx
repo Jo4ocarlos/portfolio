@@ -1,14 +1,29 @@
 // src/components/AiTriggerButton/AiTriggerButton.tsx
+'use client';
+
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import styles from './AiTriggerButton.module.css';
 
 export interface AiTriggerButtonProps {
   projectId?: string;
-  className?: string; // Permite estilização contextual vinda do card pai
+  className?: string;
 }
 
 export function AiTriggerButton({ projectId, className }: AiTriggerButtonProps) {
-  const href = projectId ? `/?project=${projectId}&ai=open` : '/?ai=open';
+  const searchParams = useSearchParams();
+  
+  // Clona os parâmetros atuais para não destruir o que já está na URL
+  const currentParams = new URLSearchParams(searchParams.toString());
+  
+  currentParams.set('ai', 'open');
+  if (projectId) {
+    currentParams.set('project', projectId);
+  } else {
+    currentParams.delete('project');
+  }
+
+  const href = `/?${currentParams.toString()}`;
 
   return (
     <Link

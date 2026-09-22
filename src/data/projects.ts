@@ -36,10 +36,10 @@ export const projects = [
     }
   ],
   aiSuggestions: [
-    'Como foi feito o Join relacional sem usar banco de dados?',
-    'Explique a injeção dinâmica de CSS para impressoras térmicas.',
-    'Como o sistema impede inconsistências fiscais (remetentes cruzados)?'
-  ]
+  'Resuma como esse sistema acelerou a logística da empresa.',
+  'Como o sistema impede erros fiscais de forma automática?', 
+  'Explique o Join relacional no client-side com Memoization.' 
+]
 },
    {
   id: 'nesting-algorithm-core',
@@ -49,16 +49,16 @@ export const projects = [
   challenge: 'Indústrias de manufatura (corte a laser, CNC, gráficas) perdem milhões anualmente com desperdício de matéria-prima (chapas, madeira, tecido) devido a arranjos ineficientes de peças. Além disso, os algoritmos matemáticos tradicionais de intersecção de polígonos são lentos demais para rodar em nuvem, travando servidores e encarecendo a infraestrutura.',
   solution: 'Concepção e desenvolvimento de um SaaS Multi-Tenant com um motor proprietário de "Hole Nesting". Em vez de matemática analítica lenta, a engine rasteriza SVGs em matrizes de bytes (Uint8Array), detectando colisões na velocidade da memória. Para garantir concorrência na API, o processamento heurístico foi isolado em Worker Threads no Node.js, mantendo o Event Loop livre.',
   impact: 'SaaS em Desenvolvimento Ativo (Core Engine concluída). A arquitetura atual valida milhares de posições por segundo e garante isolamento total de dados entre clientes corporativos, estruturando a base técnica para um produto altamente escalável e comercializável.',
-  techStack: ['Node.js', 'JavaScript', 'Worker Threads'],
+  techStack: ['Node.js', 'JavaScript', 'Worker Threads', 'Matrizes (Uint32Array)'],
   featured: true,
   githubProfile: 'https://github.com/Jo4ocarlos',
   repositoryType:'private',
   // URL vazia ou omitida intencionalmente, pois é código fechado em desenvolvimento
   technicalHighlights: [
     {
-      title: 'Motor True Shape: Detecção de Colisão por Matriz de Bits',
-      description: 'O núcleo do algoritmo de Nesting. Como a matemática analítica de intersecção de polígonos é custosa, rasterizamos as primitivas (SVGs) via "sharp" em matrizes de pixels unidimensionais (Uint8Array). A colisão é detectada de forma ultrarrápida iterando sobre os bytes, permitindo validar milhares de posições por segundo para o Hole Nesting.',
-      codeSnippet: `/**\n * Motor de Colisão Raster - Nesting SaaS\n * @author João Carlos de Almeida Silva\n */\nfunction verificarColisao(matrizChapa, matrizPeca, offsetX, offsetY, larguraChapa, larguraPeca) {\n    const linhasPeca = matrizPeca.length / larguraPeca;\n\n    for (let y = 0; y < linhasPeca; y++) {\n        const chapaY = offsetY + y;\n        if (chapaY < 0 || chapaY >= (matrizChapa.length / larguraChapa)) return true;\n\n        const offsetPecaRow = y * larguraPeca;\n        const offsetChapaRow = chapaY * larguraChapa + offsetX;\n\n        for (let x = 0; x < larguraPeca; x++) {\n            const pixelPeca = matrizPeca[offsetPecaRow + x];\n            if (pixelPeca === 0) continue; // Pixel transparente (furo/espaço vazio)\n\n            const chapaX = offsetX + x;\n            // Checa limites horizontais e sobreposição na chapa\n            if (chapaX < 0 || chapaX >= larguraChapa || matrizChapa[offsetChapaRow + x] > 0) {\n                return true; \n            }\n        }\n    }\n    return false; // Encaixe perfeito encontrado\n}`,
+      title: 'Active Pixel Caching: Otimização Extrema de Detecção de Colisão',
+      description: 'Em vez de varrer espaços vazios ao calcular o "Hole Nesting", o motor rasteriza os SVGs e indexa apenas as coordenadas de pixels sólidos em matrizes de alta performance (Uint32Array). Durante o loop heurístico, o algoritmo testa exclusivamente os pontos reais de matéria, reduzindo o custo computacional em mais de 80% e permitindo a rotação de dezenas de peças quase em tempo real.',
+      codeSnippet: `//  ACTIVE PIXEL CACHING: Mapeia apenas onde há "matéria" sólida\nlet pixelCount = 0;\nfor (let i = 0; i < matRotada.length; i++) {\n    if (matRotada[i] === 1) pixelCount++;\n}\n\n// Usa Uint32Array para suportar peças gigantes otimizando alocação de RAM\nconst activeX = new Uint32Array(pixelCount);\nconst activeY = new Uint32Array(pixelCount);\nlet idx = 0;\n\nfor (let y = 0; y < hR; y++) {\n    for (let x = 0; x < wR; x++) {\n        if (matRotada[y * wR + x] === 1) {\n            activeX[idx] = x;\n            activeY[idx] = y;\n            idx++;\n        }\n    }\n}`,
       language: 'javascript'
     },
     {
@@ -75,10 +75,10 @@ export const projects = [
     }
   ],
   aiSuggestions: [
-    'Como a colisão por Matriz de Bits supera a matemática tradicional?',
-    'Por que foram utilizadas Worker Threads no cálculo de Nesting?',
-    'Como funciona o isolamento Multi-Tenant via JWT na arquitetura?'
-  ]
+  'O que é esse motor de Nesting e qual problema ele resolve?', 
+  'Como esse SaaS ajuda indústrias a economizarem material?',
+  'Por que foram utilizadas Worker Threads no cálculo de colisão?'
+]
 },
     {
       id: 'gh-locacoes',
@@ -151,10 +151,10 @@ export const projects = [
     }
   ],
   aiSuggestions: [
-    'Como o SQL Mutex evita a falha de "dinheiro infinito" na Wallet?',
-    'Explique a arquitetura do middleware defensivo no Volume Pricing.',
-    'Como o Custom Modal foca em conversão (CRO) e blinda contra XSS?'
-  ]
+  'De forma simples, como esses plugins aumentam o faturamento?', 
+  'Como a carteira digital ajuda a fidelizar e reter clientes?', 
+  'Como a arquitetura de SQL Mutex previne o duplo gasto?' 
+]
 }
 ] as const satisfies readonly Project[];
 

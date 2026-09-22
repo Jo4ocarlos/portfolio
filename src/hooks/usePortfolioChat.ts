@@ -29,6 +29,20 @@ interface UsePortfolioChatReturn {
   clearMessages: () => void;
 }
 
+// Type Guard para garantir que o objeto malicioso não passe
+function isValidMessage(obj: unknown): obj is PortfolioMessage {
+  if (!obj || typeof obj !== 'object') return false;
+  
+  const m = obj as Record<string, unknown>;
+  
+  return (
+    typeof m.id === 'string' &&
+    typeof m.role === 'string' && ['user', 'assistant', 'system'].includes(m.role) &&
+    typeof m.content === 'string' &&
+    (typeof m.createdAt === 'string' || typeof m.createdAt === 'number')
+  );
+}
+
 export function usePortfolioChat(options: UsePortfolioChatOptions = {}): UsePortfolioChatReturn {
   const { initialMessages = [], projectId, onError } = options;
 
@@ -40,7 +54,7 @@ export function usePortfolioChat(options: UsePortfolioChatOptions = {}): UsePort
 
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  // 1. CARREGAR DO COFRE (Executa sempre que o projectId muda)
+  // 1. Executa sempre que o projectId muda
   useEffect(() => {
     if (typeof window === 'undefined') return;
     
@@ -49,11 +63,23 @@ export function usePortfolioChat(options: UsePortfolioChatOptions = {}): UsePort
     
     if (saved) {
       try {
-        const parsed = JSON.parse(saved);
-        // Reidrata as strings de data de volta para objetos Date do JS
-        const hydrated = parsed.map((m: any) => ({ ...m, createdAt: new Date(m.createdAt) }));
-        setMessages(hydrated);
+        const parsed: unknown = JSON.parse(saved); // Tratamos como desconhecido
+        
+        // Se não for um array, alguém adulterou o cache
+        if (!Array.isArray(parsed)) {
+          throw new Error('Formato de cache inválido (não é um array).');
+        }
+
+        // Filtra apenas os objetos que passam na validação rigorosa e depois reidrata as datas
+        const hydrated = parsed
+          .filter(isValidMessage)
+          .map((m) => ({ ...m, createdAt: new Date(m.createdAt) }));
+
+        setMessages(hydrated.length > 0 ? hydrated : initialMessages);
       } catch (e) {
+        // Se o JSON for inválido ou a estrutura não bater, ignoramos e limpamos a sujeira
+        console.warn('Falha na integridade do cache do chat. Resetando estado.');
+        localStorage.removeItem(storageKey);
         setMessages(initialMessages);
       }
     } else {
@@ -61,7 +87,7 @@ export function usePortfolioChat(options: UsePortfolioChatOptions = {}): UsePort
     }
     
     setIsInitialized(true);
-  }, [projectId]); // Removemos o initialMessages para evitar loops
+  }, [projectId]);
 
   // 2. SALVAR NO COFRE (Executa sempre que as mensagens mudam)
   useEffect(() => {

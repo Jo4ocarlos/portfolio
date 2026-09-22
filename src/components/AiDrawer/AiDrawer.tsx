@@ -2,7 +2,7 @@
 'use client';
 
 import { useEffect, useRef, useCallback } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { usePortfolioChat } from '@/hooks/usePortfolioChat';
 import { MarkdownRenderer } from './MarkdownRenderer';
 import { Project } from '@/types/portfolio';
@@ -14,6 +14,8 @@ export function AiDrawer() {
   const searchParams = useSearchParams();
   const isOpen = searchParams.get('ai') === 'open';
   const projectId = searchParams.get('project') ?? undefined;
+  const router = useRouter();
+const pathname = usePathname();
 
   // 2. Adicione "Project | null" aqui para avisar o TypeScript
   const activeProject: Project | null = projectId
@@ -35,14 +37,16 @@ export function AiDrawer() {
   const chatEndRef = useRef<HTMLDivElement | null>(null);
 
   const closeDrawer = useCallback(() => {
-    stop(); 
-    setInput('');
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete('ai');
-    params.delete('project');
-    const newUrl = params.toString() ? `?${params.toString()}` : window.location.pathname;
-    window.history.pushState(null, '', newUrl);
-  }, [searchParams, stop, setInput]);
+  stop(); 
+  setInput('');
+  const params = new URLSearchParams(searchParams.toString());
+  params.delete('ai');
+  params.delete('project');
+  
+  // Limpa a URL usando o roteador do Next.js
+  const newUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
+  router.replace(newUrl, { scroll: false }); 
+}, [searchParams, pathname, router, stop, setInput]);
 
   useEffect(() => {
     if (isOpen) {
