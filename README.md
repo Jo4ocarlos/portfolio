@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Portfólio Interativo & Assistente de IA
 
-## Getting Started
+*[joaocarlos-dev.vercel.app]*
 
-First, run the development server:
+![Next.js](https://img.shields.io/badge/next.js-%23000000.svg?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![Vercel AI SDK](https://img.shields.io/badge/Vercel_AI-000?style=for-the-badge&logo=vercel&logoColor=white)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Em vez de um PDF estático ou uma vitrine de links, construí este portfólio como uma aplicação Web completa (Next.js) orientada a dados. O diferencial é a integração de um **Assistente de IA nativo** que permite aos Tech Leads e Recrutadores "conversarem" com a minha base de código, recebendo respostas em tempo real sobre minhas decisões de arquitetura, integrações B2B e automações.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Destaques de Arquitetura
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+O projeto foi desenhado para demonstrar domínio em engenharia de front-end e resiliência de software:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+* **Engine de IA com Fallback Automático:** Integração com o Vercel AI SDK focada em alta disponibilidade. Se o modelo primário de LLM (Groq) sofrer *Rate Limit* ou instabilidade, o backend redireciona o stream silenciosamente para o fallback (Google Gemini). A interface do usuário nunca trava.
+* **URL-Driven State & Deep Linking:** O controle do Drawer da IA não depende de `useState` isolados, mas sim dos `searchParams` nativos do Next.js. Isso garante navegação não-destrutiva e permite compartilhar links diretos (Deep Links) que abrem o portfólio já focado no contexto de um projeto específico.
+* **Hydration Segura e Validação de Cache:** O histórico do chat é persistido no `localStorage`. Para blindar o React contra injeção de payloads corrompidos que causariam quebra de UI, o sistema hidrata os dados passando por validação estrita (Zod + Type Guards) antes da renderização.
+* **Data Layer Desacoplada (Headless Concept):** Separação absoluta entre Interface (`src/components`), Tipagem (`src/types`) e Dados (`src/data`). O layout em *Bento Grid* consome os dados de forma agnóstica, permitindo escalar ou alterar o conteúdo sem encostar no código visual.
 
-## Learn More
+## Tecnologias Utilizadas
 
-To learn more about Next.js, take a look at the following resources:
+* **Core:** React, Next.js (App Router), TypeScript.
+* **Integração de IA:** Vercel AI SDK, Groq API, Google Gemini API.
+* **Estilização e UI:** CSS Modules, CSS Grid Avançado (Mobile First, Bento Box pattern).
+* **Segurança e Validação:** Zod, Type Guards estritos.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Roteiro de Testes para Avaliadores
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Se você está revisando este código, recomendo testar os seguintes comportamentos projetados para o ecossistema React:
 
-## Deploy on Vercel
+1. **Injeção de Contexto Dinâmico:** Clique no botão "Analisar com IA" dentro de qualquer card de projeto. Observe como a URL muda e o *System Prompt* injeta exclusivamente as regras de negócio daquela ferramenta específica.
+2. **Interrupção de Stream:** Enquanto a IA estiver gerando a resposta, clique no botão vermelho de *Stop*. A aplicação aciona um `AbortController` nativo que corta o consumo da API na mesma hora, demonstrando gestão de requisições pendentes.
+3. **Persistência Resiliente:** Atualize a página (`F5`) no meio de um chat. O hook de hidratação validará o cache e remontará a interface e o histórico exatamente onde você parou.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## ⚙️ Rodando Localmente
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/jo4ocarlos/portfolio.git
+   ```
+
+2. Instale as dependências:
+   ```bash
+   npm install
+   ```
+
+3. Configure as variáveis de ambiente:
+   Crie um arquivo `.env.local` na raiz do projeto e adicione suas chaves. *(Nota: Nunca comite este arquivo)*
+   ```env
+   GROQ_API_KEY=sua_chave_da_groq_aqui
+   GEMINI_API_KEY=sua_chave_do_gemini_aqui
+   ```
+
+4. Inicie o servidor de desenvolvimento:
+   ```bash
+   npm run dev
+   ```
+
+---
+*Desenvolvido por João Carlos de Almeida Silva — Conecte-se comigo no [LinkedIn](https://www.linkedin.com/in/joão-carlos-de-almeida-silva-724579171/)*

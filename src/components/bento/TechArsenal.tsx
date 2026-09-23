@@ -11,7 +11,7 @@ export function TechArsenal({ stack, className = '' }: TechArsenalProps) {
     <article className={`${styles.bentoCard} ${styles.stackCard} ${className}`}>
       {/* O número agora se adapta se você aprender mais coisas no futuro */}
       <div className={styles.stackNumber}>{stack.length}+</div>
-      <div className={styles.stackLabel}>Stack</div>
+      <div className={styles.stackLabel}>Stack Principal</div>
       <div className={styles.stackGrid}>
         {stack.map((tech) => (
           <span key={tech} className={styles.projectTag}>{tech}</span>
