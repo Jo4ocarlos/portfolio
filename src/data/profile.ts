@@ -11,6 +11,6 @@ export const profile: Profile = {
     socials: {
       github: 'https://github.com/jo4ocarlos',
       linkedin: 'https://www.linkedin.com/in/joão-carlos-de-almeida-silva-724579171/',
-      email: 'mailto:joaocar4892@gmail.com',
+      email: 'joaocar4892@gmail.com',
     }
 };

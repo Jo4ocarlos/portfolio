@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import styles from './profile.module.css';
 import { Profile } from '@/types/portfolio';
+import { EmailButton } from './EmailButton';
 
 interface ProfileCardProps {
   profile: Profile;
@@ -42,9 +43,10 @@ export function ProfileCard({ profile }: ProfileCardProps) {
           <a href={profile.socials.linkedin} target="_blank" rel="noopener noreferrer" className={styles.socialBtn}>
             LinkedIn <span>↗</span>
           </a>
-          <a href={profile.socials.email} className={`${styles.socialBtn} ${styles.socialBtnSpan2}`}>
-            E-mail <span>↗</span>
-          </a>
+          <EmailButton 
+            email={profile.socials.email} 
+            className={`${styles.socialBtn} ${styles.socialBtnSpan2}`} 
+          />
         </div>
       </div>
 
