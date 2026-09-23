@@ -1,5 +1,6 @@
 // src/components/bento/BentoCard.tsx
 import { Project } from '@/types/portfolio';
+import { Suspense } from 'react';
 import { AiTriggerButton } from '@/components/AiTriggerButton/AiTriggerButton';
 import styles from './bento.module.css';
 
@@ -14,7 +15,9 @@ export function BentoCard({ project, className = '' }: BentoCardProps) {
       <div className={styles.projectHeader}>
         <span className={styles.projectCategory}>{project.category}</span>
         {/* Passamos uma classe global para o CSS do hover funcionar */}
-        <AiTriggerButton className="ai-trigger-btn" projectId={project.id} />
+        <Suspense fallback={<span className="ai-trigger-btn">A carregar IA...</span>}>
+          <AiTriggerButton className="ai-trigger-btn" projectId={project.id} />
+        </Suspense>
       </div>
       
       <h3 className={styles.bioTitle}>{project.title}</h3>
