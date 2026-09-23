@@ -208,7 +208,7 @@ const pathname = usePathname();
                 <line x1="12" y1="9" x2="12" y2="13"/>
                 <line x1="12" y1="17" x2="12.01" y2="17"/>
               </svg>
-              <span>Servidores com alta demanda no momento. Aguarde alguns instantes e tente novamente.</span>
+              <span>Eita, muitos usuários analisando o portfólio agora e atingimos o limite da API! Me mande um e-mail direto ou tente novamente em 1 minuto.</span>
             </div>
           )}
 

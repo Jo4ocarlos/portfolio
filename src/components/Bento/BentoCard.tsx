@@ -19,8 +19,20 @@ export function BentoCard({ project, className = '' }: BentoCardProps) {
           <AiTriggerButton className="ai-trigger-btn" projectId={project.id} />
         </Suspense>
       </div>
-      
-      <h3 className={styles.bioTitle}>{project.title}</h3>
+      {project.liveUrl ? (
+        <a 
+          href={project.liveUrl} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className={styles.titleLink} 
+        >
+          <h3 className={styles.bioTitle}>
+            {project.title} <span style={{ fontSize: '0.8em', opacity: 0.7 }}>↗</span>
+          </h3>
+        </a>
+      ) : (
+        <h3 className={styles.bioTitle}>{project.title}</h3>
+      )}
       <p className={styles.bioText}>{project.shortDescription}</p>
 
       {project.modules && project.modules.length > 0 ? (
