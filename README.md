@@ -1,6 +1,6 @@
-# 🚀 Portfólio Interativo & Assistente de IA
+# Portfólio Interativo & Assistente de IA
 
-*[joaocarlos-dev.vercel.app]*
+**🌐 Live Demo:** [joaocarlos-dev.vercel.app](https://joaocarlos-dev.vercel.app)
 
 ![Next.js](https://img.shields.io/badge/next.js-%23000000.svg?style=for-the-badge&logo=nextdotjs&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
@@ -32,7 +32,7 @@ Se você está revisando este código, recomendo testar os seguintes comportamen
 2. **Interrupção de Stream:** Enquanto a IA estiver gerando a resposta, clique no botão vermelho de *Stop*. A aplicação aciona um `AbortController` nativo que corta o consumo da API na mesma hora, demonstrando gestão de requisições pendentes.
 3. **Persistência Resiliente:** Atualize a página (`F5`) no meio de um chat. O hook de hidratação validará o cache e remontará a interface e o histórico exatamente onde você parou.
 
-## ⚙️ Rodando Localmente
+## Rodando Localmente
 
 1. Clone o repositório:
    ```bash
