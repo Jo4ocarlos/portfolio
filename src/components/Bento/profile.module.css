@@ -112,6 +112,11 @@
   font-size: 0.85rem;
   line-height: 1.6;
 }
+
+/* Espaço curto entre parágrafos: uma linha em branco inteira estoura a altura do card */
+.bioText + .bioText {
+  margin-top: -0.5rem;
+}
 @media (min-width: 1024px) {
   .imageWrapper {
     /* FIX DESKTOP: Volta a ser um quadrado perfeito proporcional à coluna esquerda */

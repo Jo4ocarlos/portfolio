@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "João Carlos | Engenharia & Automações",
-  description: "Portfólio de Engenharia Full Stack e Automações Corporativas",
+  title: "João Carlos | Desenvolvedor Full Stack",
+  description: "Portfólio de João Carlos, desenvolvedor full stack: sistemas de gestão e ferramentas internas com React, Next.js, TypeScript e Node.js.",
 };
 
 // CONTRATO ESTRITO: Definimos explicitamente a interface do layout raiz

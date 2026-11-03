@@ -52,7 +52,9 @@ export function ProfileCard({ profile }: ProfileCardProps) {
 
       <div className={`${styles.bentoCard} ${styles.bioCard}`}>
         <h3 className={styles.bioTitle}>Sobre mim</h3>
-        <p className={styles.bioText}>{profile.bio}</p>
+        {profile.bio.split('\n\n').map((paragrafo) => (
+          <p key={paragrafo.slice(0, 24)} className={styles.bioText}>{paragrafo}</p>
+        ))}
       </div>
     </>
   );

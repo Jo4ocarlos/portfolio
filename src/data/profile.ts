@@ -2,15 +2,17 @@ import { Profile } from '@/types/portfolio';
 
 export const profile: Profile = {
   name: 'João Carlos',
-    title: 'Desenvolvedor Full Stack | E-commerce & Automação',
-    location: 'São Paulo, SP',
-    bio: 'Formado em Gestão de TI (2024), atuo como desenvolvedor Full Stack. Mais do que apenas escrever código, gosto de entender o negócio como um todo: tenho facilidade em me comunicar, mapear fluxos e enxergar onde a operação pode ser melhorada. Minha base principal no dia a dia é React, Next.js e TypeScript, apoiada por Node.js, PHP e integrações de APIs para entregar sistemas fluidos que realmente facilitem a rotina das pessoas',
-    availability: true,
-    avatarUrl: '/foto-perfil.jpg',
-    stack: ['React', 'Next.js', 'TypeScript', 'Node.js', 'PHP', 'n8n'],
-    socials: {
-      github: 'https://github.com/jo4ocarlos',
-      linkedin: 'https://www.linkedin.com/in/joão-carlos-de-almeida-silva-724579171/',
-      email: 'joaocar4892@gmail.com',
-    }
+  title: 'Desenvolvedor Full Stack | Sistemas internos, e-commerce e SaaS',
+  location: 'São Paulo, SP',
+  // Parágrafos separados por \n\n. Cuidado com o tamanho: no desktop o card precisa
+  // caber na tela junto com a foto (por volta de 450 caracteres no total).
+  bio: 'Sou desenvolvedor full stack, formado em Gestão da Tecnologia da Informação (2024). Crio sistemas de gestão e ferramentas internas com React, Next.js e TypeScript, e integrações em Node.js. Gosto de entender a operação antes de programar: é ali que aparecem as melhorias que facilitam a rotina das pessoas.\n\nUso IA no dia a dia para acelerar as entregas, sempre com foco em algo que funcione de verdade. PHP e WordPress entram quando o projeto pede.',
+  availability: true,
+  avatarUrl: '/foto-perfil.jpg',
+  stack: ['React', 'Next.js', 'TypeScript', 'Node.js', 'PHP / WordPress', 'MySQL'],
+  socials: {
+    github: 'https://github.com/jo4ocarlos',
+    linkedin: 'https://www.linkedin.com/in/joão-carlos-de-almeida-silva-724579171/',
+    email: 'joaocar4892@gmail.com',
+  },
 };

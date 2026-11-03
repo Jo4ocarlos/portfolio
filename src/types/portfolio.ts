@@ -16,8 +16,8 @@ export type TechStack =
   | 'Google Sheets'
   | 'Git'
   | 'Google Sheets API'
-  |'Worker Threads'
-  |'Matrizes (Uint32Array)'
+  | 'Worker Threads'
+  | 'MySQL'
   ;
 
 export type ProjectCategory =
