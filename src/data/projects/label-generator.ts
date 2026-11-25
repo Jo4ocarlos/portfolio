@@ -12,7 +12,7 @@ export const labelGenerator = {
   },
   challenge: 'A expedição montava as etiquetas cruzando à mão duas planilhas: uma com o endereço de cada loja e outra com os produtos de cada uma. Era lento, saía etiqueta sem produto (bobina desperdiçada) e, quando o operador trocava de empresa, às vezes a etiqueta saía com o remetente errado.',
   solution: 'Aplicação que roda inteira no navegador (React e TypeScript), sem backend. Ela busca as duas planilhas publicadas em CSV pelo Google Sheets, cruza os dados pelo ID de conferência e gera uma etiqueta por loja. Lojas sem produto ficam de fora por padrão, o remetente é definido automaticamente pela empresa selecionada e o tamanho da página de impressão muda conforme o modelo de etiqueta, para a térmica imprimir no formato certo sem ajuste manual.',
-  impact: 'Esta é a demonstração pública da primeira versão. A que a empresa usa hoje na expedição evoluiu: tem banco de dados, aponta divergências na importação das planilhas e guia a separação pelo celular. O código dela é fechado. A digitação manual, a etiqueta vazia e a escolha do remetente pelo operador saíram do processo. Ainda não há medição de tempo ou de erros.',
+  impact: 'Esta é a demonstração pública da primeira versão, com lojas fictícias. Foi essa primeira versão que tirou do processo a digitação manual, a etiqueta vazia e a escolha do remetente pelo operador. Depois dela, a empresa passou a usar na expedição outra versão, com banco de dados, aviso de divergências na importação das planilhas e separação pelo celular. O código dessa outra versão é fechado, e não há mais detalhes públicos sobre ela. Ainda não há medição de tempo ou de erros.',
   techStack: ['React', 'TypeScript', 'Google Sheets'],
   repositoryType: 'public',
   repositoryUrl: 'https://github.com/Jo4ocarlos/wms-label-generator',
@@ -71,6 +71,6 @@ const printConfig = getConfigPagina();
   aiSuggestions: [
     'Que problema da expedição essa ferramenta resolve?',
     'Como funciona o cruzamento das duas planilhas?',
-    'O que mudou da primeira versão para a atual?',
+    'Esta é a versão que a empresa usa hoje?',
   ],
 } as const satisfies Project;
