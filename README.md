@@ -1,60 +1,70 @@
-# Portfólio Interativo & Assistente de IA
+# Portfólio de João Carlos
 
-**🌐 Live Demo:** [joaocarlos-dev.vercel.app](https://joaocarlos-dev.vercel.app)
+**No ar:** [joaocarlos-dev.vercel.app](https://joaocarlos-dev.vercel.app)
 
-![Next.js](https://img.shields.io/badge/next.js-%23000000.svg?style=for-the-badge&logo=nextdotjs&logoColor=white)
-![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
-![Vercel AI SDK](https://img.shields.io/badge/Vercel_AI-000?style=for-the-badge&logo=vercel&logoColor=white)
+Site em Next.js que apresenta meus projetos e tem um assistente de IA para responder perguntas sobre eles. O código foi desenvolvido com apoio de IA.
 
-Em vez de um PDF estático ou uma vitrine de links, construí este portfólio como uma aplicação Web completa (Next.js) orientada a dados. O diferencial é a integração de um **Assistente de IA nativo** que permite aos Tech Leads e Recrutadores "conversarem" com a minha base de código, recebendo respostas em tempo real sobre minhas decisões de arquitetura, integrações B2B e automações.
+## O que o projeto faz
 
-## Destaques de Arquitetura
+* **Bento numa tela só:** no desktop, perfil, projetos e experiência aparecem sem rolagem, com link para o código e a demonstração quando existem.
+* **Resumo do projeto:** "Detalhes + IA" abre um painel com problema, decisão e situação, mesmo que a IA esteja fora do ar.
+* **Assistente de IA:** responde com o contexto do projeto que está aberto ou, na visão geral, com as experiências e a lista de projetos.
+* **Troca de modelo:** a resposta vem da Groq. Se ela recusar, cair, demorar mais de 10 segundos ou terminar sem texto, o servidor tenta o Google Gemini. A troca só é possível antes do primeiro trecho da resposta. Se os dois falharem, a rota responde 503 e a tela mostra um erro.
+* **Limites da rota:** o Zod recusa requisição malformada, pergunta acima de 500 caracteres e mais de 11 mensagens. São até 10 requisições por minuto por IP.
+* **Estado na URL:** o painel abre e fecha pelos parâmetros da URL, então dá para compartilhar um link já no projeto certo.
+* **Histórico local:** a conversa fica no `localStorage` do navegador e passa por uma checagem de formato antes de voltar para a tela.
 
-O projeto foi desenhado para demonstrar domínio em engenharia de front-end e resiliência de software:
+## Limites conhecidos
 
-* **Engine de IA com Fallback Automático:** Integração com o Vercel AI SDK focada em alta disponibilidade. Se o modelo primário de LLM (Groq) sofrer *Rate Limit* ou instabilidade, o backend redireciona o stream silenciosamente para o fallback (Google Gemini). A interface do usuário nunca trava.
-* **URL-Driven State & Deep Linking:** O controle do Drawer da IA não depende de `useState` isolados, mas sim dos `searchParams` nativos do Next.js. Isso garante navegação não-destrutiva e permite compartilhar links diretos (Deep Links) que abrem o portfólio já focado no contexto de um projeto específico.
-* **Hydration Segura e Validação de Cache:** O histórico do chat é persistido no `localStorage`. Para blindar o React contra injeção de payloads corrompidos que causariam quebra de UI, o sistema hidrata os dados passando por validação estrita (Zod + Type Guards) antes da renderização.
-* **Data Layer Desacoplada (Headless Concept):** Separação absoluta entre Interface (`src/components`), Tipagem (`src/types`) e Dados (`src/data`). O layout em *Bento Grid* consome os dados de forma agnóstica, permitindo escalar ou alterar o conteúdo sem encostar no código visual.
+* Ainda não há testes automatizados. É o que estou estudando e vou adicionar agora.
+* O limite de requisições fica na memória de cada instância. Ele contém abuso comum, mas não substitui um contador compartilhado ou uma regra no firewall.
 
-## Tecnologias Utilizadas
+## Organização
 
-* **Core:** React, Next.js (App Router), TypeScript.
-* **Integração de IA:** Vercel AI SDK, Groq API, Google Gemini API.
-* **Estilização e UI:** CSS Modules, CSS Grid Avançado (Mobile First, Bento Box pattern).
-* **Segurança e Validação:** Zod, Type Guards estritos.
+| Pasta | Conteúdo |
+|---|---|
+| `src/app` | página e rota `/api/chat` |
+| `src/components` | interface |
+| `src/data` | textos e dados dos projetos |
+| `src/hooks` | estado do chat |
+| `src/lib/chat` | limites, validação, prompt, escolha do modelo e histórico |
+| `src/types` | tipos compartilhados |
 
-## Roteiro de Testes para Avaliadores
+## Tecnologias
 
-Se você está revisando este código, recomendo testar os seguintes comportamentos projetados para o ecossistema React:
+Next.js (App Router), React, TypeScript, CSS Modules, Zod, Vercel AI SDK, Groq e Google Gemini.
 
-1. **Injeção de Contexto Dinâmico:** Clique no botão "Analisar com IA" dentro de qualquer card de projeto. Observe como a URL muda e o *System Prompt* injeta exclusivamente as regras de negócio daquela ferramenta específica.
-2. **Interrupção de Stream:** Enquanto a IA estiver gerando a resposta, clique no botão vermelho de *Stop*. A aplicação aciona um `AbortController` nativo que corta o consumo da API na mesma hora, demonstrando gestão de requisições pendentes.
-3. **Persistência Resiliente:** Atualize a página (`F5`) no meio de um chat. O hook de hidratação validará o cache e remontará a interface e o histórico exatamente onde você parou.
+## Rodando localmente
 
-## Rodando Localmente
-
-1. Clone o repositório:
+1. Clone o repositório e instale as dependências:
    ```bash
-   git clone https://github.com/jo4ocarlos/portfolio.git
-   ```
-
-2. Instale as dependências:
-   ```bash
+   git clone https://github.com/Jo4ocarlos/portfolio.git
+   cd portfolio
    npm install
    ```
 
-3. Configure as variáveis de ambiente:
-   Crie um arquivo `.env.local` na raiz do projeto e adicione suas chaves. *(Nota: Nunca comite este arquivo)*
+2. Crie um arquivo `.env.local` na raiz. Ele não deve ir para o Git:
    ```env
-   GROQ_API_KEY=sua_chave_da_groq_aqui
-   GEMINI_API_KEY=sua_chave_do_gemini_aqui
+   GROQ_API_KEY=sua_chave_da_groq
+   GOOGLE_GENERATIVE_AI_API_KEY=sua_chave_do_gemini
    ```
 
-4. Inicie o servidor de desenvolvimento:
+3. Inicie o servidor:
    ```bash
    npm run dev
    ```
 
+Para abrir pelo celular na mesma rede, inclua `ALLOWED_DEV_ORIGINS=ip_do_computador` no `.env.local`.
+
+## Verificações
+
+```bash
+npm run lint
+npm run typecheck
+npm run build
+```
+
+O GitHub Actions roda as três a cada push na `main` e em pull requests.
+
 ---
-*Desenvolvido por João Carlos de Almeida Silva — Conecte-se comigo no [LinkedIn](https://www.linkedin.com/in/joão-carlos-de-almeida-silva-724579171/)*
+João Carlos de Almeida Silva · [LinkedIn](https://www.linkedin.com/in/joão-carlos-de-almeida-silva-724579171/)
