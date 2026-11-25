@@ -47,7 +47,6 @@ export interface Experience {
   role: string;
   period: string;
   description: string;
-  technologies: readonly string[];
   link?: InlineLink;
 }
 
