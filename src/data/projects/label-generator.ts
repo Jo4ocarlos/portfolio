@@ -8,11 +8,11 @@ export const labelGenerator = {
   caseSummary: {
     problem: 'A etiqueta era montada à mão, cruzando a planilha de endereços com a de produtos. Saía etiqueta vazia e, às vezes, com o remetente errado.',
     decision: 'Loja sem produto fica de fora por padrão, e o remetente vem da empresa escolhida, não da memória de quem imprime.',
-    status: 'Esta é a primeira versão, sem banco de dados. A da empresa evoluiu para banco, importação com conferência e separação pelo celular, e tem código fechado.',
+    status: 'Esta é a primeira versão, sem banco de dados. A da empresa evoluiu para banco, importação com conferência e separação dos produtos pelo celular, e tem código fechado.',
   },
   challenge: 'A expedição montava as etiquetas cruzando à mão duas planilhas: uma com o endereço de cada loja e outra com os produtos de cada uma. Era lento, saía etiqueta sem produto (bobina desperdiçada) e, quando o operador trocava de empresa, às vezes a etiqueta saía com o remetente errado.',
   solution: 'Aplicação que roda inteira no navegador (React e TypeScript), sem backend. Ela busca as duas planilhas publicadas em CSV pelo Google Sheets, cruza os dados pelo ID de conferência ou pelo nome da loja e gera uma etiqueta por loja. Lojas sem produto ficam de fora por padrão, o remetente é definido automaticamente pela empresa selecionada e o tamanho da página de impressão muda conforme o modelo de etiqueta, para a térmica imprimir no formato certo sem ajuste manual.',
-  impact: 'Esta é a demonstração pública da primeira versão, com lojas fictícias. Foi essa primeira versão que tirou do processo a digitação manual, a etiqueta vazia e a escolha do remetente pelo operador. Depois dela, a empresa passou a usar na expedição outra versão, com banco de dados, aviso de divergências na importação das planilhas e separação pelo celular. O código dessa outra versão é fechado, e não há mais detalhes públicos sobre ela. Ainda não há medição de tempo ou de erros.',
+  impact: 'Esta é a demonstração pública da primeira versão, com lojas fictícias. Foi essa primeira versão que tirou do processo a digitação manual, a etiqueta vazia e a escolha do remetente pelo operador. Depois dela, a empresa passou a usar na expedição outra versão, com banco de dados, aviso de divergências na importação das planilhas e separação dos produtos pelo celular. O código dessa outra versão é fechado, e não há mais detalhes públicos sobre ela. Ainda não há medição de tempo ou de erros.',
   techStack: ['React', 'TypeScript', 'Google Sheets'],
   repositoryType: 'public',
   repositoryUrl: 'https://github.com/Jo4ocarlos/wms-label-generator',
