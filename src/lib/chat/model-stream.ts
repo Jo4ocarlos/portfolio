@@ -4,6 +4,8 @@ import { CHAT_LIMITS } from './limits';
 
 const FIRST_CHUNK_TIMEOUT_MS = 10_000;
 const NEXT_CHUNK_TIMEOUT_MS = 10_000;
+// Baixa, para o modelo se prender ao contexto em vez de variar o texto.
+const TEMPERATURE = 0.2;
 
 export interface ModelCandidate {
   name: string;
@@ -22,6 +24,7 @@ async function* readText(model: LanguageModel, request: ModelRequest): AsyncGene
   const result = streamText({
     model,
     ...request,
+    temperature: TEMPERATURE,
     maxOutputTokens: CHAT_LIMITS.maxOutputTokens,
     maxRetries: 0,
     timeout: { chunkMs: NEXT_CHUNK_TIMEOUT_MS },
