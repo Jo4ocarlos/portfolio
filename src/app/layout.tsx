@@ -1,33 +1,36 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
+import { profile } from '@/data/profile';
+import './globals.css';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const SITE_URL = 'https://joaocarlos-dev.vercel.app';
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const title = `${profile.name} | Sistemas internos e integrações`;
+const description = `Portfólio de ${profile.name}, desenvolvedor de sistemas internos e integrações com React, TypeScript e Node.js.`;
 
 export const metadata: Metadata = {
-  title: "João Carlos | Desenvolvedor Full Stack",
-  description: "Portfólio de João Carlos, desenvolvedor full stack: sistemas de gestão e ferramentas internas com React, Next.js, TypeScript e Node.js.",
+  metadataBase: new URL(SITE_URL),
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+    url: '/',
+    siteName: `Portfólio de ${profile.name}`,
+    locale: 'pt_BR',
+    type: 'website',
+    images: [{ url: profile.avatarUrl, alt: `Foto de ${profile.name}` }],
+  },
 };
 
-// CONTRATO ESTRITO: Definimos explicitamente a interface do layout raiz
 interface RootLayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="pt-BR" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body suppressHydrationWarning={true}>
-        {children}
-      </body>
+    <html lang="pt-BR">
+      <body>{children}</body>
     </html>
   );
 }

@@ -1,0 +1,47 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--module-gap);
+  list-style: none;
+}
+
+.row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--module-padding);
+  border: 1px solid var(--border-faint);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-primary);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.rowLink:hover,
+.rowLink:focus-visible {
+  border-color: var(--bg-secondary);
+  background-color: var(--accent-strong);
+}
+
+.name {
+  color: var(--text-primary);
+  font-size: var(--text-small);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.badge {
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  background-color: var(--bg-primary);
+  color: var(--text-muted);
+  font-size: var(--text-tiny);
+  white-space: nowrap;
+}
+
+/* Coluna estreita: o nome já diz o que o módulo faz */
+@media (min-width: 1200px) and (max-width: 1499px) {
+  .badge {
+    display: none;
+  }
+}

@@ -1,61 +1,50 @@
-// src/components/bento/ProfileCard.tsx
 import Image from 'next/image';
-import styles from './profile.module.css';
-import { Profile } from '@/types/portfolio';
+import { Card } from '@/components/Card/Card';
+import { ExternalLink } from '@/components/ExternalLink/ExternalLink';
+import { GlobeIcon } from '@/components/icons';
+import type { Profile } from '@/types/portfolio';
 import { EmailButton } from './EmailButton';
+import styles from './profileCard.module.css';
 
 interface ProfileCardProps {
   profile: Profile;
 }
 
 export function ProfileCard({ profile }: ProfileCardProps) {
+  const { name, title, location, avatarUrl, links } = profile;
+
   return (
-    <>
-      <div className={styles.bentoCard}>
-        <div className={styles.imageWrapper}>
-          <Image
-            src={profile.avatarUrl}
-            alt={`Foto de ${profile.name}`}
-            fill
-            className={styles.profileImage}
-            sizes="(max-width: 768px) 100vw, 380px"
-            priority
-          />
-        </div>
-        <h1 className={styles.greeting}>Hey, sou o {profile.name}</h1>
-        <h2 className={styles.role}>{profile.title}</h2>
-
-        {profile.availability && (
-          <div className={styles.locationBadge}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="2" y1="12" x2="22" y2="12" />
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z" />
-            </svg>
-            {profile.location}
-          </div>
-        )}
-
-        <div className={styles.socialGrid}>
-          <a href={profile.socials.github} target="_blank" rel="noopener noreferrer" className={styles.socialBtn}>
-            GitHub <span>↗</span>
-          </a>
-          <a href={profile.socials.linkedin} target="_blank" rel="noopener noreferrer" className={styles.socialBtn}>
-            LinkedIn <span>↗</span>
-          </a>
-          <EmailButton 
-            email={profile.socials.email} 
-            className={`${styles.socialBtn} ${styles.socialBtnSpan2}`} 
-          />
-        </div>
+    <Card as="section" aria-labelledby="profile-name" className={styles.card}>
+      <div className={styles.photo}>
+        <Image
+          src={avatarUrl}
+          alt={`Foto de ${name}`}
+          fill
+          className={styles.photoImage}
+          sizes="(min-width: 1024px) 380px, 100vw"
+          preload
+        />
       </div>
 
-      <div className={`${styles.bentoCard} ${styles.bioCard}`}>
-        <h3 className={styles.bioTitle}>Sobre mim</h3>
-        {profile.bio.split('\n\n').map((paragrafo) => (
-          <p key={paragrafo.slice(0, 24)} className={styles.bioText}>{paragrafo}</p>
-        ))}
+      <div>
+        <h1 id="profile-name" className={styles.name}>Hey, sou o {name}</h1>
+        <p className={styles.role}>{title}</p>
       </div>
-    </>
+
+      <p className={styles.location}>
+        <GlobeIcon />
+        {location}
+      </p>
+
+      <div className={styles.contacts}>
+        <ExternalLink href={links.github} className={styles.contact}>
+          GitHub <span aria-hidden="true">↗</span>
+        </ExternalLink>
+        <ExternalLink href={links.linkedin} className={styles.contact}>
+          LinkedIn <span aria-hidden="true">↗</span>
+        </ExternalLink>
+        <EmailButton email={links.email} className={`${styles.contact} ${styles.contactWide}`} />
+      </div>
+    </Card>
   );
 }

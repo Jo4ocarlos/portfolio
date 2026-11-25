@@ -1,0 +1,29 @@
+.heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  column-gap: 0.5rem;
+}
+
+.period {
+  color: var(--text-secondary);
+  font-size: var(--text-tiny);
+}
+
+.role {
+  color: var(--accent-primary);
+  font-size: var(--text-small);
+  font-weight: 500;
+}
+
+.link {
+  position: relative;
+  color: var(--accent-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.link:hover {
+  color: var(--accent-strong);
+}

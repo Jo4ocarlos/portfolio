@@ -1,79 +1,57 @@
-// src/app/page.tsx
-import { Suspense } from 'react';
-import styles from './page.module.css';
-import { portfolioData } from '@/data'; 
-import { ProjectId } from '@/data/projects';
-import { AiDrawer } from '@/components/AiDrawer/AiDrawer';
-import GithubBanner from '@/components/GithubBanner/GithubBanner';
-import { ProfileCard } from '@/components/Bento/ProfileCard';
-import { BentoCard } from '@/components/Bento/BentoCard';
+import { AboutCard } from '@/components/Bento/AboutCard';
 import { ExperienceCard } from '@/components/Bento/ExperienceCard';
-import { TechArsenal } from '@/components/Bento/TechArsenal';
+import { ProfileCard } from '@/components/Bento/ProfileCard';
+import { ProjectCard } from '@/components/Bento/ProjectCard';
+import { TechStack } from '@/components/Bento/TechStack';
+import { AiDrawerLoader } from '@/components/AiDrawer/AiDrawerLoader';
+import { GithubBanner } from '@/components/GithubBanner/GithubBanner';
+import { experiences } from '@/data/experiences';
+import { profile } from '@/data/profile';
+import { toProjectPreview } from '@/data/project-preview';
+import { getProject, projects, type ProjectId } from '@/data/projects';
+import styles from './page.module.css';
 
-// O Mapa de busca O(1)
-const projectMap = new Map(portfolioData.projects.map((p) => [p.id, p]));
-
-function getProject(id: ProjectId) {
-  const project = projectMap.get(id);
-  if (!project) throw new Error(`Projeto "${id}" ausente na base.`);
-  return project;
-}
+const featuredProjects: readonly { id: ProjectId; className: string }[] = [
+  { id: 'wms-label-generator', className: styles.half },
+  { id: 'ecommerce-plugins', className: styles.tall },
+  { id: 'portfolio-assistant', className: styles.tall },
+  { id: 'nesting-algorithm-core', className: styles.half },
+];
 
 export default function Home() {
-  const { profile, experiences } = portfolioData;
-
-  // Busca tipada. Se errar a string, o VSCode avisa antes de salvar.
-  const projectCheckout = getProject('wms-label-generator');
-  const projectPlugins = getProject('ecommerce-plugins');
-  const projectNesting = getProject('nesting-algorithm-core');
-
   return (
-    <main className={styles.mainContainer}>
+    <>
+      <main className={styles.page}>
+        <div className={styles.profileColumn}>
+          <ProfileCard profile={profile} />
+          <AboutCard paragraphs={profile.bio} />
+          <TechStack stack={profile.stack} />
+        </div>
 
-      {/* ================= COLUNA ESQUERDA ================= */}
-      <aside className={styles.leftColumn}>
-        <ProfileCard profile={profile} />
-      </aside>
-
-      {/* ================= BANNER MOVIDO AQUI ================= */}
-      {/* No mobile, ele vai renderizar naturalmente logo abaixo do "Sobre mim" */}
-      <article className={styles.fullWidthBanner}>
-        <GithubBanner />
-      </article>
-
-      {/* ================= COLUNA DIREITA ================= */}
-      <section className={styles.rightGrid}>
-
-        {projectCheckout && (
-          <BentoCard project={projectCheckout} className={`${styles.colSpan6} ${styles.orderCheckout}`} />
-        )}
-
-        {projectPlugins && (
-          <BentoCard project={projectPlugins} className={`${styles.colSpan3} ${styles.rowSpan2} ${styles.orderPlugins}`} />
-        )}
-
-        {/* TechArsenal com a classe orderTech para reorganizar no mobile*/}
-        <TechArsenal
-          stack={profile.stack}
-          className={`${styles.colSpan3} ${styles.rowSpan2} ${styles.orderTech}`}
+        <GithubBanner
+          username={profile.githubUsername}
+          profileUrl={profile.links.github}
+          className={styles.banner}
         />
 
-        {/* Nesting com a classe orderNesting para subir no mobile */}
-        {projectNesting && (
-          <BentoCard project={projectNesting} className={`${styles.colSpan6} ${styles.orderNesting}`} />
-        )}
-        {/* Experiências com a classe orderExp para ficarem no final */}
-        {experiences.slice(0, 3).map((exp) => (
-          <ExperienceCard key={exp.id} experience={exp} className={`${styles.colSpan4} ${styles.orderExp}`} />
-        ))}
+        <div className={styles.grid}>
+          <section className={styles.gridSection} aria-labelledby="projects-title">
+            <h2 id="projects-title" className="visually-hidden">Projetos</h2>
+            {featuredProjects.map(({ id, className }) => (
+              <ProjectCard key={id} project={getProject(id)} className={className} />
+            ))}
+          </section>
 
-      </section>
+          <section className={styles.gridSection} aria-labelledby="experience-title">
+            <h2 id="experience-title" className="visually-hidden">Experiência</h2>
+            {experiences.map((experience) => (
+              <ExperienceCard key={experience.id} experience={experience} className={styles.third} />
+            ))}
+          </section>
+        </div>
+      </main>
 
-      {/* Isolamento com Suspense para Deep Linking da IA */}
-      <Suspense fallback={null}>
-        <AiDrawer />
-      </Suspense>
-
-    </main>
+      <AiDrawerLoader projects={projects.map(toProjectPreview)} />
+    </>
   );
 }

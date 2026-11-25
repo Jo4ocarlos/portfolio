@@ -1,99 +1,85 @@
-/* src/components/GithubBanner/GithubBanner.module.css */
-
-.bannerContainer {
-  display: flex;
-  flex-direction: column; /* MOBILE: Empilha o texto e o calendário */
-  align-items: flex-start; /* Alinha o texto à esquerda */
+.banner {
+  position: relative;
   justify-content: center;
-  gap: 1.25rem; /* Respiro entre o texto e o gráfico no celular */
-  width: 100%;
-  padding: 1.25rem; 
-  background-color: var(--bg-secondary);
-  border: 1px solid rgba(255, 255, 255, 0.05); 
-  border-radius: var(--radius-lg);
-  text-decoration: none;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-/* DESKTOP: Volta a ficar lado a lado */
-@media (min-width: 1024px) {
-  .bannerContainer {
-    flex-direction: row; 
-    align-items: center;
-    justify-content: space-between;
-    gap: 0;
-  }
-}
-
-.bannerContainer:hover {
-  background-color: var(--bg-tertiary);
-  border-color: rgba(255, 255, 255, 0.15); 
-}
-
-/* ================== TEXTOS ================== */
-.textWrapper {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  text-align: left;
-}
-
-@media (min-width: 1024px) {
-  .textWrapper {
-    width: auto;
-    margin-right: 2rem;
-  }
+  border: 1px solid var(--border-faint);
 }
 
 .title {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin: 0;
+}
+
+/* O cartão inteiro é clicável, mas o link é só o título */
+.link::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  content: '';
+}
+
+.link:focus-visible {
+  outline: none;
+}
+
+.link:focus-visible::after {
+  outline: 2px solid var(--accent-primary);
 }
 
 .subtitle {
-  font-size: 0.875rem;
   color: var(--text-secondary);
-  margin-top: 0.25rem;
-  margin-bottom: 0;
-  transition: color 0.3s ease;
+  font-size: var(--text-small);
 }
 
-.bannerContainer:hover .subtitle {
-  color: var(--text-primary);
-}
-
-/* ================== CALENDÁRIO ================== */
-.calendarWrapper {
-  width: 100%; /* Garante que o scroll aconteça dentro do banner */
-  overflow-x: auto;
-  overflow-y: hidden;
+/* Acima do link do cartão, para rolar com o dedo */
+.calendar {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  overflow: auto hidden;
   opacity: 0.8;
+  scrollbar-width: none;
   transition: opacity 0.3s ease;
-  scrollbar-width: none; 
-  -ms-overflow-style: none; 
-  -webkit-overflow-scrolling: touch; /* Deixa o deslizar de dedo macio no iPhone */
 }
 
-.calendarWrapper::-webkit-scrollbar {
-  display: none; 
-}
-
-.bannerContainer:hover .calendarWrapper {
+.banner:hover .calendar {
   opacity: 1;
 }
 
 .calendarInner {
   min-width: 700px;
-  pointer-events: none; 
+  pointer-events: none;
+  zoom: var(--calendar-zoom);
 }
 
-/* Força o sumiço da legenda e do texto indesejado da biblioteca */
+.calendarInner * {
+  scrollbar-width: none;
+}
+
 .calendarInner :global(footer) {
   display: none !important;
+}
+
+/* Mesma altura do calendário, para a página não pular quando ele carrega */
+.calendarPlaceholder {
+  width: 100%;
+  min-height: 129px;
+}
+
+@media (min-width: 1024px) {
+  .banner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: var(--banner-padding-block);
+  }
+
+  .text {
+    margin-right: 2rem;
+  }
+
+  .calendar {
+    z-index: auto;
+  }
 }

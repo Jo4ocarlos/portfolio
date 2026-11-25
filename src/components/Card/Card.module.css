@@ -1,0 +1,26 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--card-gap);
+  padding: var(--card-padding);
+  border-radius: var(--radius-lg);
+  background-color: var(--bg-secondary);
+  transition: background-color 0.2s ease;
+}
+
+.card:hover {
+  background-color: var(--bg-tertiary);
+}
+
+.title {
+  color: var(--text-primary);
+  font-size: var(--card-title-size);
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.text {
+  color: var(--text-secondary);
+  font-size: var(--text-size);
+  line-height: var(--text-leading);
+}
