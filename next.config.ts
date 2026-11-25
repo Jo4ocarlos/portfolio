@@ -1,8 +1,8 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  // Libera conexões de HMR e WebSockets para o seu IP local de desenvolvimento
-  allowedDevOrigins: ['192.168.10.2'],
+  // Para abrir o servidor de desenvolvimento pelo celular, informe o IP do computador no .env.local
+  allowedDevOrigins: process.env.ALLOWED_DEV_ORIGINS?.split(','),
 };
 
 export default nextConfig;
