@@ -1,100 +1,55 @@
-// src/app/api/chat/route.ts
-import { google } from '@ai-sdk/google';
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { groq } from '@ai-sdk/groq';
-import { streamText } from 'ai';
-import { z } from 'zod';
-import { generateSystemPrompt } from '@/lib/ai-prompt';
-import { buildStreamResponse } from '@/lib/stream-utils';
+import { CHAT_LIMITS } from '@/lib/chat/limits';
+import { openStreamWithFallback, type ModelCandidate } from '@/lib/chat/model-stream';
+import { readChatPayload } from '@/lib/chat/payload';
+import { createRateLimiter, getClientIp } from '@/lib/chat/rate-limit';
+import { buildSystemPrompt } from '@/lib/chat/system-prompt';
+import { textStreamResponse } from '@/lib/chat/text-stream-response';
 
-export type MessageRole = 'user' | 'assistant' | 'system';
+export const maxDuration = 60;
 
-export interface ChatMessage {
-  role: MessageRole;
-  content: string;
-}
+const CLIENT_CLOSED_REQUEST = 499;
 
-const chatPayloadSchema = z.object({
-  messages: z.array(
-    z.object({
-      role: z.enum(['user', 'assistant', 'system']),
-      content: z.string().min(1, 'A mensagem não pode ser vazia'),
-    })
-  ),
-  projectId: z.string().optional(),
+// O SDK só lê GOOGLE_GENERATIVE_AI_API_KEY. GEMINI_API_KEY era o nome usado no README.
+const google = createGoogleGenerativeAI({
+  apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GEMINI_API_KEY,
 });
 
-export async function POST(req: Request): Promise<Response> {
+const models: readonly ModelCandidate[] = [
+  { name: 'Groq', model: groq('openai/gpt-oss-20b') },
+  { name: 'Gemini', model: google('gemini-3.1-flash-lite') },
+];
+
+const rateLimiter = createRateLimiter({
+  maxRequests: CHAT_LIMITS.requestsPerWindow,
+  windowMs: CHAT_LIMITS.windowMs,
+});
+
+function errorResponse(error: string, status: number, headers?: HeadersInit): Response {
+  return Response.json({ error }, { status, headers });
+}
+
+export async function POST(request: Request): Promise<Response> {
+  const limit = rateLimiter.check(getClientIp(request.headers));
+  if (!limit.allowed) {
+    return errorResponse('Muitas perguntas em pouco tempo', 429, {
+      'Retry-After': String(limit.retryAfterSeconds),
+    });
+  }
+
+  const payload = await readChatPayload(request);
+  if (!payload) return errorResponse('Requisição inválida', 400);
+
   try {
-    const rawBody = (await req.json()) as unknown;
-    const parsed = chatPayloadSchema.safeParse(rawBody);
-
-    if (!parsed.success) {
-      return Response.json(
-        { error: 'Payload inválido', details: parsed.error.flatten() },
-        { status: 400 }
-      );
-    }
-
-    const { messages, projectId } = parsed.data;
-
-    // 1. Busca as regras de negócio isoladas
-    const systemPrompt = generateSystemPrompt(projectId);
-
-    const formattedMessages = messages.map((m: ChatMessage) => ({
-      role: m.role,
-      content: m.content,
-    }));
- 
-    
-    try {
-      // 2. TENTATIVA PRINCIPAL (Groq)
-      const resultGroq = streamText({
-        model: groq('openai/gpt-oss-20b'),
-        system: systemPrompt,
-        messages: formattedMessages,
-        maxRetries: 0, 
-        abortSignal: req.signal,
-      });
-
-      // Hack de checagem do primeiro chunk para validar estabilidade da API
-      const iterator = resultGroq.textStream[Symbol.asyncIterator]();
-      const firstChunk = await iterator.next(); 
-
-      return buildStreamResponse(async (controller, encoder) => {
-        if (!firstChunk.done) {
-          controller.enqueue(encoder.encode(firstChunk.value));
-        }
-        while (true) {
-          const { done, value } = await iterator.next();
-          if (done) break;
-          controller.enqueue(encoder.encode(value));
-        }
-      });
-
-    } catch (erroGroq) {
-      console.warn('⚠️ Falha crítica na Groq. Acionando Google Gemini (Reserva)...');
-      
-      // 3. FALLBACK (Gemini)
-      const resultGemini = streamText({
-        model: google('gemini-3.1-flash-lite'),
-        system: systemPrompt,
-        messages: formattedMessages,
-        maxRetries: 0,
-        abortSignal: req.signal,
-      });
-
-      return buildStreamResponse(async (controller, encoder) => {
-        for await (const chunk of resultGemini.textStream) {
-          controller.enqueue(encoder.encode(chunk));
-        }
-      });
-    }
-
-  } catch (error) {
-    console.error('[API Chat Route Error]:', error);
-    return Response.json(
-      { error: 'Falha interna no processamento da rota de IA' },
-      { status: 500 }
-    );
+    const answer = await openStreamWithFallback(models, {
+      instructions: buildSystemPrompt(payload.projectId),
+      messages: payload.messages,
+      abortSignal: request.signal,
+    });
+    return textStreamResponse(answer);
+  } catch {
+    if (request.signal.aborted) return new Response(null, { status: CLIENT_CLOSED_REQUEST });
+    return errorResponse('Assistente indisponível no momento', 503);
   }
 }
