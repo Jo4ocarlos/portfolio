@@ -1,0 +1,72 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.message {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  animation: appear 0.25s ease-out;
+}
+
+.question {
+  align-self: flex-end;
+  padding: 0.75rem 1.15rem;
+  border-radius: 16px 16px 4px;
+  background-color: var(--accent-strong);
+  color: var(--bg-primary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 4px 14px var(--accent-glow);
+}
+
+.answer {
+  align-self: flex-start;
+  width: 100%;
+  padding: 1.15rem;
+  border: 1px solid var(--border-faint);
+  border-radius: 16px 16px 16px 4px;
+  background-color: var(--bg-tertiary);
+}
+
+.typing {
+  position: relative;
+  display: flex;
+  gap: 4px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent-primary);
+  animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.dot:nth-of-type(2) {
+  animation-delay: -0.32s;
+}
+
+.dot:nth-of-type(3) {
+  animation-delay: -0.16s;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+  }
+
+  40% {
+    transform: scale(1);
+  }
+}

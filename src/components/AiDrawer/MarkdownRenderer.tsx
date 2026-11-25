@@ -1,69 +1,44 @@
-// src/components/AiDrawer/MarkdownRenderer.tsx
-'use client';
-
-import React from 'react';
-import ReactMarkdown from 'react-markdown';
+import { isValidElement, type ReactNode } from 'react';
+import ReactMarkdown, { type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { ExternalLink } from '@/components/ExternalLink/ExternalLink';
 import { CodeBlock } from './CodeBlock';
 import styles from './MarkdownRenderer.module.css';
 
-export interface MarkdownRendererProps {
+interface MarkdownRendererProps {
   content: string;
 }
 
-interface CodeProps extends React.HTMLAttributes<HTMLElement> {
-  inline?: boolean;
+interface CodeElementProps {
+  className?: string;
+  children?: ReactNode;
 }
+
+function renderCodeBlock(children: ReactNode) {
+  if (!isValidElement<CodeElementProps>(children)) return <pre>{children}</pre>;
+
+  const { className = '', children: code } = children.props;
+  const language = /language-(\w+)/.exec(className)?.[1];
+
+  return <CodeBlock language={language} value={String(code ?? '').replace(/\n$/, '')} />;
+}
+
+const markdownComponents: Components = {
+  a: ({ href, children }) => <ExternalLink href={href} className={styles.link}>{children}</ExternalLink>,
+  code: ({ children }) => <code className={styles.inlineCode}>{children}</code>,
+  pre: ({ children }) => renderCodeBlock(children),
+  table: ({ children }) => (
+    <div className={styles.tableWrapper}>
+      <table className={styles.table}>{children}</table>
+    </div>
+  ),
+};
 
 export function MarkdownRenderer({ content }: MarkdownRendererProps) {
   return (
-    <div className={styles.markdownBody}>
-      <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
-        components={{
-          code({ inline, className, children, ...props }: CodeProps) {
-            const match = /language-(\w+)/.exec(className || '');
-            const codeString = String(children).replace(/\n$/, '');
-
-            if (!inline && (match || codeString.includes('\n'))) {
-              return (
-                <CodeBlock
-                  language={match ? match[1] : 'plaintext'}
-                  value={codeString}
-                />
-              );
-            }
-
-            return (
-              <code className={styles.inlineCode} {...props}>
-                {children}
-              </code>
-            );
-          },
-          table({ children, ...props }) {
-            return (
-              <div className={styles.tableWrapper}>
-                <table className={styles.table} {...props}>
-                  {children}
-                </table>
-              </div>
-            );
-          },
-          a({ href, children, ...props }) {
-            return (
-              <a
-                href={href}
-                className={styles.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                {...props}
-              >
-                {children}
-              </a>
-            );
-          },
-        }}
-      >
+    <div className={styles.markdown}>
+      {/* Imagem fica de fora: a resposta vem de um modelo e não deve disparar download de outro site */}
+      <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents} disallowedElements={['img']}>
         {content}
       </ReactMarkdown>
     </div>
