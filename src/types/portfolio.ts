@@ -1,47 +1,44 @@
-// src/types/portfolio.ts
-
-export type TechStack =
-  | 'React'
-  | 'Next.js'
-  | 'TypeScript'
-  | 'JavaScript'
-  | 'Node.js'
-  | 'n8n'
-  | 'REST APIs'
-  | 'PHP'
-  | 'WordPress'
-  | 'CSS3'
-  | 'CSS Modules'
-  | 'HTML5'
-  | 'Google Sheets'
+export type Technology =
+  | 'APIs REST'
   | 'Git'
-  | 'Google Sheets API'
-  | 'Worker Threads'
+  | 'Google Sheets'
+  | 'JavaScript'
   | 'MySQL'
-  ;
+  | 'Next.js'
+  | 'Node.js'
+  | 'PHP'
+  | 'React'
+  | 'TypeScript'
+  | 'WordPress';
 
 export type ProjectCategory =
   | 'E-commerce'
-  | 'Automação Corporativa'
+  | 'IA aplicada'
+  | 'SaaS & Algoritmos'
   | 'Sistema Interno'
-  | 'Web Development'
-  | 'SaaS & Algoritmos';
+  | 'Web Development';
 
-  export type RepositoryType = 'public' | 'private' | 'multi-repo' | 'none';
+export type RepositoryType = 'public' | 'private' | 'multi-repo' | 'none';
 
 export interface Profile {
   name: string;
   title: string;
   location: string;
-  bio: string;
-  availability: boolean;
+  bio: readonly string[];
   avatarUrl: string;
-  stack: string[];
-  socials: {
+  stack: readonly Technology[];
+  githubUsername: string;
+  links: {
     github: string;
     linkedin: string;
     email: string;
   };
+}
+
+/** Trecho que já existe no texto e vira link. */
+export interface InlineLink {
+  text: string;
+  url: string;
 }
 
 export interface Experience {
@@ -51,7 +48,9 @@ export interface Experience {
   period: string;
   description: string;
   technologies: readonly string[];
+  link?: InlineLink;
 }
+
 export interface ProjectModule {
   name: string;
   badge: string;
@@ -65,28 +64,30 @@ export interface TechnicalHighlight {
   language: string;
 }
 
+export interface CaseSummary {
+  problem: string;
+  decision: string;
+  status: string;
+}
+
 export interface Project {
   id: string;
   title: string;
   client?: string;
   category: ProjectCategory;
   shortDescription: string;
+  caseSummary?: CaseSummary;
   challenge: string;
   solution: string;
   impact: string;
-  techStack: readonly TechStack[];
-  featured: boolean;
-  githubProfile?: string;
+  techStack: readonly Technology[];
   repositoryUrl?: string;
-  repositoryType: RepositoryType; // Agora só aceita as 4 strings exatas definidas la em cima
+  repositoryType: RepositoryType;
   liveUrl?: string;
   modules?: readonly ProjectModule[];
-  technicalHighlights?: readonly TechnicalHighlight[]; // <-- ADICIONADO READONLY
-  aiSuggestions?: readonly string[]; // <-- ADICIONADO READONLY
+  technicalHighlights?: readonly TechnicalHighlight[];
+  aiSuggestions?: readonly string[];
 }
 
-export interface PortfolioData {
-  profile: Profile;
-  experiences: Experience[];
-  projects: Project[];
-}
+/** O que o painel de IA precisa no navegador. O resto do projeto fica no servidor. */
+export type ProjectPreview = Pick<Project, 'id' | 'title' | 'caseSummary' | 'aiSuggestions'>;

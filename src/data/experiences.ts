@@ -1,26 +1,23 @@
-import { Experience } from '@/types/portfolio';
+import type { Experience } from '@/types/portfolio';
+import { ghLocacoes } from './projects/gh-locacoes';
 
-export const experiences: Experience[] = [
+export const experiences: readonly Experience[] = [
   {
     id: 'graph-a',
-    role: 'Desenvolvedor',
+    role: 'Desenvolvedor Web',
     company: 'Graph A',
     period: 'Julho/2025 - Presente',
-    // TODO: troque uma das frases por um número real assim que tiver. Exemplos do formato:
-    // "o gerador de etiquetas atende N pedidos por dia e tirou X horas de digitação por semana"
-    // "a integração sincroniza N produtos de M fornecedores"
-    description: 'Desenvolvo as ferramentas internas e o e-commerce da empresa. Criei em React o gerador de etiquetas usado na expedição, integrei catálogo e estoque de fornecedores ao site e desenvolvo plugins de WooCommerce para o checkout.',
+    description: 'Desenvolvo lojas WooCommerce para clientes e cuido delas e do site da empresa. Também criei o gerador de etiquetas e um painel que reúne os pedidos das lojas.',
     technologies: ['React', 'TypeScript', 'Node.js', 'PHP', 'WooCommerce', 'MySQL'],
   },
   {
     id: 'freelancer',
     role: 'Desenvolvedor Web (freelancer)',
     company: 'Autônomo',
-    period: 'Maio/2024 - Presente',
-    // Videomaker e social media saíram daqui: diluem a experiência como dev.
-    // Se quiser manter, coloque no LinkedIn.
-    description: 'Projetos web sob demanda para pequenas empresas: o site institucional da GH Locações, em Next.js, e o sistema de agendamento online do consultório Rogério Caetano.',
-    technologies: ['Next.js', 'React', 'TypeScript'],
+    period: 'Maio/2024 - Outubro/2026',
+    description: 'Fiz o site institucional da GH Locações, em WordPress, e cuidei das redes sociais da empresa. Também criei um agendamento online que o consultório Rogério Caetano usou.',
+    technologies: ['WordPress'],
+    link: { text: 'site institucional da GH Locações', url: ghLocacoes.liveUrl },
   },
   {
     id: 'otorhinus',
