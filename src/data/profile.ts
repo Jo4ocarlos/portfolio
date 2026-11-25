@@ -7,8 +7,8 @@ export const profile: Profile = {
   title: 'Desenvolvedor de sistemas internos e integrações',
   location: 'São Paulo, SP',
   bio: [
-    'Transformo processos manuais em sistemas que a operação consegue usar. Gosto de entender o problema com quem vive a rotina, definir a regra e validar o resultado.',
-    'Uso IA para acelerar o desenvolvimento. Sou formado em Gestão da Tecnologia da Informação (2024).',
+    'Gosto de entender o problema com quem vive a rotina e transformar isso em sistemas que funcionam no dia a dia. Defino a regra, desenvolvo com apoio de IA e confiro o resultado com quem usa.',
+    'Também trabalhei com redes sociais e vídeo, o que me ajuda a conversar com clientes. Sou formado em Gestão da Tecnologia da Informação (2024).',
   ],
   avatarUrl: '/foto-perfil.jpg',
   stack: ['React', 'Next.js', 'TypeScript', 'Node.js', 'APIs REST', 'MySQL', 'PHP', 'WordPress', 'Git'],

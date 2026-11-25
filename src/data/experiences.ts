@@ -11,10 +11,10 @@ export const experiences: readonly Experience[] = [
   },
   {
     id: 'freelancer',
-    role: 'Desenvolvedor Web (freelancer)',
+    role: 'Desenvolvedor Web, Social Media e Videomaker',
     company: 'Autônomo',
     period: 'Maio/2024 - Outubro/2026',
-    description: 'Fiz o site institucional da GH Locações, em WordPress, e cuidei das redes sociais da empresa. Também criei um agendamento online que o consultório Rogério Caetano usou.',
+    description: 'Fiz o site institucional da GH Locações, em WordPress, e cuidei das redes sociais. Também produzi vídeos e criei um site com agendamento para um consultório.',
     link: { text: 'site institucional da GH Locações', url: ghLocacoes.liveUrl },
   },
   {
