@@ -14,7 +14,7 @@ export const experiences: readonly Experience[] = [
     role: 'Desenvolvedor Web, Social Media e Videomaker',
     company: 'Autônomo',
     period: 'Maio/2024 - Outubro/2026',
-    description: 'Fiz o site institucional da GH Locações, em WordPress, e cuidei das redes sociais. Também produzi vídeos e criei um site com agendamento para um consultório.',
+    description: 'Clientes próprios, com contrato. Fiz o site institucional da GH Locações e cuidei das redes. Para um consultório, criei um site com agendamento. Vídeos do roteiro à edição.',
     link: { text: 'site institucional da GH Locações', url: ghLocacoes.liveUrl },
   },
   {
